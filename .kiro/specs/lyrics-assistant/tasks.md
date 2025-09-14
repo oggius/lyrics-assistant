@@ -61,7 +61,7 @@
   - Set up error boundary components for error handling
   - _Requirements: 1.1, 1.2, 6.1_
 
-- [ ] 8. Build songs list page and navigation
+- [x] 8. Build songs list page and navigation
   - Create SongsList component to display available songs
   - Implement song selection and navigation to song page
   - Add search and filter functionality for songs

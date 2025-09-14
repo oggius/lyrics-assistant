@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { ApiResponse, Song, LyricsSearchRequest, LyricsSearchResponse, CreateSongRequest, UpdateSongRequest, ApiError } from '../types/api';
 
 // API Base URL - will be configured via environment variables
@@ -17,7 +17,7 @@ const apiClient = axios.create({
 // Response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => response,
-  (error: AxiosError<ApiError>) => {
+  (error: any) => {
     const apiError: ApiError = {
       message: error.response?.data?.message || error.message || 'An unexpected error occurred',
       statusCode: error.response?.status || 500,
