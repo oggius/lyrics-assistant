@@ -37,14 +37,35 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
 }
 
 describe('App', () => {
-  it('renders welcome message', () => {
+  it('renders app title in header', () => {
     render(
       <TestWrapper>
         <App />
       </TestWrapper>
     )
     
-    expect(screen.getByText('Welcome to Lyrics Assistant')).toBeInTheDocument()
+    expect(screen.getByText('Lyrics Assistant')).toBeInTheDocument()
+  })
+
+  it('renders songs library page by default', () => {
+    render(
+      <TestWrapper>
+        <App />
+      </TestWrapper>
+    )
+    
+    expect(screen.getByText('Songs Library')).toBeInTheDocument()
+  })
+
+  it('renders bottom navigation', () => {
+    render(
+      <TestWrapper>
+        <App />
+      </TestWrapper>
+    )
+    
+    expect(screen.getByText('Songs')).toBeInTheDocument()
+    expect(screen.getByText('Add Song')).toBeInTheDocument()
   })
 
   it('renders without crashing', () => {
