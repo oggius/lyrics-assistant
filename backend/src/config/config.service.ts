@@ -74,6 +74,14 @@ export class AppConfigService {
     };
   }
 
+  // Swagger configuration
+  get swaggerConfig() {
+    return {
+      enabled: this.configService.get<boolean>('swagger.enabled'),
+      path: this.configService.get<string>('swagger.path'),
+    };
+  }
+
   // Validation method to ensure required configuration is present
   validateConfiguration(): void {
     const requiredConfigs = [

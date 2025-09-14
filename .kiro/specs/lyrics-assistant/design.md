@@ -115,11 +115,18 @@ graph TB
    - CRUD operations for songs
    - Search functionality
    - Lyrics retrieval endpoints
+   - Comprehensive Swagger documentation with examples
 
 2. **LyricsController**
    - Perplexity API integration
    - Lyrics search and processing
    - Content filtering and validation
+   - Detailed API documentation for search endpoints
+
+3. **HealthController**
+   - System health monitoring endpoints
+   - Readiness and liveness checks
+   - Documented monitoring endpoints for DevOps
 
 #### Services
 1. **SongsService**
@@ -265,7 +272,86 @@ CREATE INDEX idx_songs_author ON songs(author);
    - Transaction rollback handling
    - Constraint violation handling
 
+## API Documentation
+
+### Swagger/OpenAPI Integration
+
+The API uses Swagger/OpenAPI 3.0 for comprehensive documentation and interactive testing capabilities.
+
+#### Documentation Features
+1. **Interactive API Explorer**
+   - Try-it-out functionality for all endpoints
+   - Real-time request/response testing
+   - Authentication token management
+
+2. **Comprehensive Schema Documentation**
+   - Detailed request/response models
+   - Validation rules and constraints
+   - Example data for all endpoints
+
+3. **Error Response Documentation**
+   - HTTP status codes with descriptions
+   - Error response schemas
+   - Rate limiting information
+
+#### API Documentation Structure
+```typescript
+// Swagger Configuration
+const swaggerConfig = {
+  title: 'Lyrics Assistant API',
+  description: 'RESTful API for the Lyrics Assistant application',
+  version: '1.0.0',
+  tags: [
+    { name: 'songs', description: 'Song management endpoints' },
+    { name: 'lyrics', description: 'Lyrics search endpoints' },
+    { name: 'health', description: 'Health check endpoints' }
+  ],
+  servers: [
+    { url: 'http://localhost:3001/api/v1', description: 'Development' },
+    { url: 'https://api.lyrics-assistant.com/api/v1', description: 'Production' }
+  ]
+};
+```
+
+#### Endpoint Documentation Examples
+```typescript
+// Songs endpoint documentation
+@ApiOperation({
+  summary: 'Get all songs',
+  description: 'Retrieve a list of all songs with metadata'
+})
+@ApiResponse({
+  status: 200,
+  description: 'Successfully retrieved songs',
+  schema: { /* detailed schema */ }
+})
+
+// Lyrics search endpoint documentation
+@ApiBody({
+  description: 'Search parameters for lyrics lookup',
+  schema: {
+    type: 'object',
+    required: ['title'],
+    properties: {
+      title: { type: 'string', example: 'Amazing Grace' },
+      author: { type: 'string', example: 'John Newton' }
+    }
+  }
+})
+```
+
 ## Testing Strategy
+
+### API Testing
+1. **Swagger UI Testing**
+   - Interactive endpoint testing
+   - Request/response validation
+   - Authentication flow testing
+
+2. **Documentation Validation**
+   - Schema validation against actual responses
+   - Example data accuracy verification
+   - Error response documentation testing
 
 ### Frontend Testing
 1. **Unit Tests**

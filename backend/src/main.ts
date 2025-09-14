@@ -41,22 +41,40 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger documentation (only in development)
-  if (configService.isDevelopment) {
+  const port = configService.port;
+
+  // Swagger documentation (configurable via environment)
+  const swaggerConfig = configService.swaggerConfig;
+  if (swaggerConfig.enabled) {
     const config = new DocumentBuilder()
       .setTitle('Lyrics Assistant API')
-      .setDescription('API for the Lyrics Assistant application')
-      .setVersion('1.0')
-      .addTag('songs', 'Song management endpoints')
-      .addTag('lyrics', 'Lyrics search endpoints')
-      .addTag('health', 'Health check endpoints')
+      .setDescription('RESTful API for the Lyrics Assistant application - A Progressive Web App for musicians with automatic lyrics scrolling')
+      .setVersion('1.0.0')
+      .addTag('app', 'Application information endpoints')
+      .addTag('health', 'Health check endpoints - System monitoring and status')
+      .addServer(`http://localhost:${port}`, 'Local development server')
+      .addServer(`https://api.lyrics-assistant.com`, 'Production server')
+      .setContact('Lyrics Assistant Team', 'https://lyrics-assistant.com', 'support@lyrics-assistant.com')
+      .setLicense('MIT', 'https://opensource.org/licenses/MIT')
       .build();
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/docs', app, document);
-    logger.log('Swagger documentation available at /api/docs');
+    SwaggerModule.setup(swaggerConfig.path, app, document, {
+      customSiteTitle: 'Lyrics Assistant API Documentation',
+      customfavIcon: '/favicon.ico',
+      customCss: `
+        .swagger-ui .topbar { display: none }
+        .swagger-ui .info .title { color: #1976d2 }
+      `,
+      swaggerOptions: {
+        persistAuthorization: true,
+        displayRequestDuration: true,
+        filter: true,
+        showExtensions: true,
+        showCommonExtensions: true,
+      },
+    });
+    logger.log(`Swagger documentation available at http://localhost:${port}/${swaggerConfig.path}`);
   }
-
-  const port = configService.port;
   await app.listen(port);
   
   logger.log(`Application is running on: http://localhost:${port}`);

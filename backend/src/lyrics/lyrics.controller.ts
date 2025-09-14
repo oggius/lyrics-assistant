@@ -1,5 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { LyricsService } from './lyrics.service';
 
 @ApiTags('lyrics')
@@ -7,10 +7,6 @@ import { LyricsService } from './lyrics.service';
 export class LyricsController {
   constructor(private readonly lyricsService: LyricsService) {}
 
-  @Post('search')
-  @ApiOperation({ summary: 'Search for lyrics' })
-  @ApiResponse({ status: 200, description: 'Return search results.' })
-  search(@Body() searchDto: any) {
-    return this.lyricsService.search(searchDto);
-  }
+  // Lyrics search endpoints will be implemented in task 6
+  // Currently no endpoints are exposed to avoid confusion in API documentation
 }

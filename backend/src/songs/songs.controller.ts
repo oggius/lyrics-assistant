@@ -1,5 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { SongsService } from './songs.service';
 
 @ApiTags('songs')
@@ -7,10 +7,6 @@ import { SongsService } from './songs.service';
 export class SongsController {
   constructor(private readonly songsService: SongsService) {}
 
-  @Get()
-  @ApiOperation({ summary: 'Get all songs' })
-  @ApiResponse({ status: 200, description: 'Return all songs.' })
-  findAll() {
-    return this.songsService.findAll();
-  }
+  // Songs endpoints will be implemented in task 4 and 5
+  // Currently no endpoints are exposed to avoid confusion in API documentation
 }

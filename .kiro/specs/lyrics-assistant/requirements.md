@@ -105,3 +105,16 @@ The Lyrics Assistant is a Progressive Web Application (PWA) designed for musicia
 4. WHEN logging THEN the system SHALL treat logs as event streams
 5. WHEN scaling THEN the system SHALL support horizontal scaling through process model
 6. WHEN developed THEN the system SHALL maintain strict separation between build, release, and run stages
+
+### Requirement 9
+
+**User Story:** As a developer and API consumer, I want comprehensive API documentation with interactive testing capabilities, so that I can understand, test, and integrate with the API effectively.
+
+#### Acceptance Criteria
+
+1. WHEN accessing the API documentation THEN the system SHALL provide Swagger/OpenAPI documentation at /api/docs
+2. WHEN viewing the API documentation THEN the system SHALL display detailed endpoint descriptions, request/response schemas, and example data
+3. WHEN using the API documentation THEN the system SHALL provide interactive testing capabilities for all endpoints
+4. WHEN documenting endpoints THEN the system SHALL include proper HTTP status codes, error responses, and validation rules
+5. WHEN in development or staging environment THEN the system SHALL make API documentation publicly accessible
+6. WHEN documenting the API THEN the system SHALL include authentication requirements and rate limiting information

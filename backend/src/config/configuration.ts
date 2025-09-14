@@ -40,4 +40,10 @@ export default () => ({
   logging: {
     level: process.env.LOG_LEVEL || 'info',
   },
+
+  // API Documentation configuration
+  swagger: {
+    enabled: process.env.SWAGGER_ENABLED === 'true' || process.env.NODE_ENV !== 'production',
+    path: process.env.SWAGGER_PATH || 'api/docs',
+  },
 });

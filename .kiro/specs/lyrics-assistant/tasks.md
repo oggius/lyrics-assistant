@@ -22,7 +22,8 @@
   - Configure CORS and security middleware
   - Implement health check endpoint for monitoring
   - Set up environment configuration service
-  - _Requirements: 8.1, 8.2, 8.3_
+  - Configure comprehensive Swagger/OpenAPI documentation
+  - _Requirements: 8.1, 8.2, 8.3, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
 - [ ] 4. Build songs repository and service layer
   - Implement SongsRepository with Drizzle query operations
@@ -38,8 +39,9 @@
   - Implement POST /songs endpoint for creating new songs
   - Implement PUT /songs/:id endpoint for updating songs
   - Implement DELETE /songs/:id endpoint for removing songs
+  - Add comprehensive Swagger documentation with examples and schemas
   - Add request validation and error handling
-  - _Requirements: 1.1, 1.2, 5.6_
+  - _Requirements: 1.1, 1.2, 5.6, 9.2, 9.3, 9.4_
 
 - [ ] 6. Integrate Perplexity API for lyrics search
   - Create LyricsSearchService with Perplexity API integration
@@ -47,8 +49,9 @@
   - Add error handling for API failures and rate limiting
   - Create POST /lyrics/search endpoint for lyrics retrieval
   - Implement response parsing and content cleaning
+  - Add detailed Swagger documentation for lyrics search API
   - Write unit tests with mocked API responses
-  - _Requirements: 4.2, 4.3, 4.4, 4.5_
+  - _Requirements: 4.2, 4.3, 4.4, 4.5, 9.2, 9.3, 9.4_
 
 - [ ] 7. Set up React frontend project structure
   - Configure React Router for navigation between pages
