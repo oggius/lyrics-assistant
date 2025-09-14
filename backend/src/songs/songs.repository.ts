@@ -3,28 +3,7 @@ import { eq, ilike, or, and, desc } from 'drizzle-orm';
 import { DATABASE_CONNECTION } from '../database/database.module';
 import { Database } from '../database/connection';
 import { songs, Song, NewSong, validateScrollSpeed, validateScrollStartDelay } from '../database/schema';
-
-export interface CreateSongDto {
-  title: string;
-  author?: string;
-  lyrics: string;
-  scrollStartDelay?: number;
-  scrollSpeed?: number;
-}
-
-export interface UpdateSongDto {
-  title?: string;
-  author?: string;
-  lyrics?: string;
-  scrollStartDelay?: number;
-  scrollSpeed?: number;
-}
-
-export interface SearchSongsDto {
-  query?: string;
-  title?: string;
-  author?: string;
-}
+import { CreateSongDto, UpdateSongDto, SearchSongsDto } from './dto';
 
 @Injectable()
 export class SongsRepository {

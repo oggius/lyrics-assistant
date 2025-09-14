@@ -33,7 +33,7 @@
   - Write unit tests for repository and service layers
   - _Requirements: 1.1, 1.2, 5.6_
 
-- [ ] 5. Create songs REST API endpoints
+- [x] 5. Create songs REST API endpoints
   - Implement GET /songs endpoint to retrieve all songs
   - Implement GET /songs/:id endpoint for individual song retrieval
   - Implement POST /songs endpoint for creating new songs

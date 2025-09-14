@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { SongsService } from './songs.service';
-import { SongsRepository, CreateSongDto, UpdateSongDto, SearchSongsDto } from './songs.repository';
+import { SongsRepository } from './songs.repository';
+import { CreateSongDto, UpdateSongDto, SearchSongsDto } from './dto';
 import { Song } from '../database/schema';
 
 describe('SongsService', () => {

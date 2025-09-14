@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SongsRepository, CreateSongDto, UpdateSongDto, SearchSongsDto } from './songs.repository';
+import { SongsRepository } from './songs.repository';
+import { CreateSongDto, UpdateSongDto, SearchSongsDto } from './dto';
 import { DATABASE_CONNECTION } from '../database/database.module';
 import { Song } from '../database/schema';
 
