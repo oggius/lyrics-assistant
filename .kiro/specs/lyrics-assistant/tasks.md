@@ -43,7 +43,7 @@
   - Add request validation and error handling
   - _Requirements: 1.1, 1.2, 5.6, 9.2, 9.3, 9.4_
 
-- [ ] 6. Integrate Perplexity API for lyrics search
+- [x] 6. Integrate Perplexity API for lyrics search
   - Create LyricsSearchService with Perplexity API integration
   - Implement prompt construction for filtering lyrics-only content
   - Add error handling for API failures and rate limiting
