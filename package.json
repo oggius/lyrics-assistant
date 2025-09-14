@@ -1,0 +1,32 @@
+{
+  "name": "lyrics-assistant",
+  "version": "1.0.0",
+  "description": "A Progressive Web Application for musicians with automatic lyrics scrolling",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run start:dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm run test",
+    "test:frontend": "cd frontend && npm run test",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:studio": "cd backend && npm run db:studio",
+    "docker:db": "docker run --name lyrics-db -e POSTGRES_PASSWORD=password -e POSTGRES_DB=lyrics_assistant -p 5432:5432 -d postgres:14",
+    "docker:db:stop": "docker stop lyrics-db && docker rm lyrics-db"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
