@@ -16,7 +16,7 @@
   - Configure Drizzle Studio for local database management
   - _Requirements: 1.1, 5.6, 8.1_
 
-- [ ] 3. Implement core backend API structure
+- [x] 3. Implement core backend API structure
   - Create NestJS modules for songs and lyrics functionality
   - Set up global exception filters and validation pipes
   - Configure CORS and security middleware

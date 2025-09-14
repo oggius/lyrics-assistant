@@ -2,13 +2,11 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Lyrics Assistant API is running!';
-  }
-
-  getHealth(): { status: string; timestamp: string } {
+  getHello() {
     return {
-      status: 'healthy',
+      message: 'Lyrics Assistant API',
+      version: process.env.npm_package_version || '1.0.0',
+      environment: process.env.NODE_ENV || 'development',
       timestamp: new Date().toISOString(),
     };
   }
