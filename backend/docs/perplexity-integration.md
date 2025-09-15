@@ -39,7 +39,7 @@ this.openaiClient = new OpenAI({
 
 ### Model Selection
 
-We use `sonar` which provides:
+We use `sonar-pro` which provides:
 - Web search capabilities
 - Real-time information access
 - Cost-effective pricing
@@ -51,7 +51,7 @@ The implementation uses Perplexity-specific parameters:
 
 ```typescript
 {
-  model: 'sonar',
+  model: 'sonar-pro',
   messages: [{ role: 'user', content: prompt }],
   max_tokens: 2000,
   temperature: 0.1, // Low temperature for consistent results

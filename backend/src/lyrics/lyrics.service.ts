@@ -48,20 +48,19 @@ export class LyricsService {
             content: prompt,
           },
         ],
-        max_tokens: 2000,
+        max_tokens: 100000,
         temperature: 0.1, // Low temperature for more consistent results
         top_p: 0.9,
         // Perplexity-specific parameters (cast to any to bypass TypeScript checks)
         ...({
           return_citations: false,
-          search_domain_filter: ['genius.com', 'azlyrics.com', 'lyrics.com'],
           return_images: false,
           return_related_questions: false,
           search_recency_filter: 'month',
           top_k: 0,
           stream: false,
           presence_penalty: 0,
-          frequency_penalty: 1,
+          frequency_penalty: 0,
         } as any),
       });
 
@@ -82,23 +81,15 @@ export class LyricsService {
   private constructLyricsSearchPrompt(searchDto: SearchLyricsDto): string {
     const { title, author } = searchDto;
     
-    let searchQuery = `lyrics for "${title}"`;
+    let searchQuery = `lyrics for the song "${title}"`;
     if (author) {
       searchQuery += ` by ${author}`;
     }
     
-    const prompt = `Find the complete ${searchQuery}.
+    const prompt = `Find ${searchQuery}.
 
 IMPORTANT INSTRUCTIONS:
-- Return ONLY the song lyrics, no additional commentary or information
-- Do not include song title, artist name, or any metadata in the response
-- Do not include verse/chorus labels or structural annotations like [Verse 1], [Chorus], etc.
-- Do not include copyright information or disclaimers
-- If the song has multiple verses and a chorus, include all of them in order
-- Maintain the original line breaks and structure of the lyrics
-- If you cannot find the exact lyrics, respond with "LYRICS_NOT_FOUND"
-- Do not provide similar songs or alternatives
-- Focus on finding the most accurate and complete version of the lyrics`;
+- Return ONLY the song lyrics, no additional commentary or information`;
 
     return prompt;
   }
