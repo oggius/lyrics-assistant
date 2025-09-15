@@ -79,7 +79,7 @@
   - Write component tests for lyrics rendering
   - _Requirements: 2.1, 2.2_
 
-- [ ] 10. Build auto-scroll functionality and controls
+- [x] 10. Build auto-scroll functionality and controls
   - Create ScrollService for managing automatic scrolling logic
   - Implement Play button to start scrolling with configurable delay
   - Implement Stop button to stop scrolling and return to top

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Typography,
@@ -14,10 +14,45 @@ import {
   Person as PersonIcon,
 } from '@mui/icons-material';
 import { useSong } from '../hooks/useApi';
+import { useScrollService } from '../hooks/useScrollService';
+import { ScrollControls } from '../components';
 
 const SongPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: song, isLoading, error } = useSong(id!);
+  const lyricsRef = useRef<HTMLDivElement>(null);
+  const lyricsContentRef = useRef<HTMLHRElement>(null);
+
+  // Initialize scroll service with song's scroll configuration
+  const {
+    isPlaying,
+    isPaused,
+    isActive,
+    config,
+    play,
+    stop,
+    pause,
+    updateConfig,
+  } = useScrollService({
+    startDelay: song?.scrollStartDelay ?? 0,
+    speed: song?.scrollSpeed ?? 5,
+  });
+
+  // Handle play with scroll to lyrics content (the divider before lyrics)
+  const handlePlay = () => {
+    // Use getElementById as primary method, fallback to ref
+    const targetElement = document.getElementById('lyrics-start-divider') || lyricsContentRef.current;
+    play(targetElement || undefined);
+  };
+
+  // Handle click on lyrics area to pause/resume
+  const handleLyricsClick = () => {
+    if (isPlaying) {
+      pause();
+    } else if (isPaused) {
+      play();
+    }
+  };
 
   // Loading state
   if (isLoading) {
@@ -49,8 +84,8 @@ const SongPage: React.FC = () => {
   if (error) {
     return (
       <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-        <Alert 
-          severity="error" 
+        <Alert
+          severity="error"
           sx={{ mb: 2 }}
         >
           {error.message || 'Failed to load song. Please try again.'}
@@ -63,8 +98,8 @@ const SongPage: React.FC = () => {
   if (!song) {
     return (
       <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-        <Alert 
-          severity="warning" 
+        <Alert
+          severity="warning"
           sx={{ mb: 2 }}
         >
           Song not found. Please check the URL or go back to the songs list.
@@ -85,28 +120,42 @@ const SongPage: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
+      {/* Scroll Controls - Moved to top */}
+      <Box sx={{ mb: 3 }}>
+        <ScrollControls
+          isPlaying={isPlaying}
+          isPaused={isPaused}
+          isActive={isActive}
+          config={config}
+          onPlay={handlePlay}
+          onStop={stop}
+          onPause={pause}
+          onConfigUpdate={updateConfig}
+        />
+      </Box>
+
       {/* Song Header */}
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
           <MusicNoteIcon color="primary" sx={{ mt: 0.5 }} />
           <Box sx={{ flex: 1 }}>
-            <Typography 
-              variant="h4" 
-              component="h1" 
+            <Typography
+              variant="h4"
+              component="h1"
               gutterBottom
-              sx={{ 
+              sx={{
                 wordBreak: 'break-word',
                 lineHeight: 1.2,
               }}
             >
               {song.title}
             </Typography>
-            
+
             {song.author && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                 <PersonIcon color="action" fontSize="small" />
-                <Typography 
-                  variant="h6" 
+                <Typography
+                  variant="h6"
                   color="text.secondary"
                   sx={{ wordBreak: 'break-word' }}
                 >
@@ -132,30 +181,46 @@ const SongPage: React.FC = () => {
         </Box>
       </Paper>
 
-      {/* Lyrics Content */}
-      <Paper 
-        elevation={1} 
-        sx={{ 
+      {/* Lyrics Content - Clickable to pause/resume */}
+      <Paper
+        ref={lyricsRef}
+        elevation={1}
+        onClick={handleLyricsClick}
+        sx={{
           p: 3,
           backgroundColor: 'background.paper',
+          cursor: (isPlaying || isPaused) ? 'pointer' : 'default',
+          transition: 'background-color 0.2s ease',
+          '&:hover': {
+            backgroundColor: (isPlaying || isPaused) ? 'action.hover' : 'background.paper',
+          },
         }}
       >
-        <Typography 
-          variant="h6" 
-          gutterBottom 
-          sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
+        <Typography
+          variant="h6"
+          gutterBottom
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
             gap: 1,
             mb: 2,
           }}
         >
           <MusicNoteIcon fontSize="small" />
           Lyrics
+          {(isPlaying || isPaused) && (
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ ml: 'auto', fontStyle: 'italic' }}
+            >
+              Click to {isPlaying ? 'pause' : 'resume'}
+            </Typography>
+          )}
         </Typography>
-        
-        <Divider sx={{ mb: 3 }} />
-        
+
+        <Divider ref={lyricsContentRef} id="lyrics-start-divider" sx={{ mb: 3 }} />
+
         <Box
           sx={{
             fontFamily: 'monospace',
@@ -176,13 +241,6 @@ const SongPage: React.FC = () => {
           ))}
         </Box>
       </Paper>
-
-      {/* Future: Scroll Controls will be added in task 10 */}
-      <Box sx={{ mt: 2, textAlign: 'center' }}>
-        <Typography variant="body2" color="text.secondary">
-          Scroll controls will be available in the next update
-        </Typography>
-      </Box>
     </Box>
   );
 };

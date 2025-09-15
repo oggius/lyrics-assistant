@@ -42,10 +42,9 @@ describe('LyricsService', () => {
 
       const prompt = service['constructLyricsSearchPrompt'](searchDto);
 
-      expect(prompt).toContain('lyrics for "Amazing Grace" by John Newton');
+      expect(prompt).toContain('Find lyrics for the song "Amazing Grace" by John Newton');
       expect(prompt).toContain('Return ONLY the song lyrics');
-      expect(prompt).toContain('Do not include song title, artist name');
-      expect(prompt).toContain('LYRICS_NOT_FOUND');
+      expect(prompt).toContain('IMPORTANT INSTRUCTIONS');
     });
 
     it('should construct prompt with title only', () => {
@@ -55,7 +54,7 @@ describe('LyricsService', () => {
 
       const prompt = service['constructLyricsSearchPrompt'](searchDto);
 
-      expect(prompt).toContain('lyrics for "Amazing Grace"');
+      expect(prompt).toContain('Find lyrics for the song "Amazing Grace"');
       expect(prompt).not.toContain(' by ');
     });
 

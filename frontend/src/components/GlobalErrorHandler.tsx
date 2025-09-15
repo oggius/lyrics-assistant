@@ -26,10 +26,10 @@ const GlobalErrorHandler: React.FC<GlobalErrorHandlerProps> = ({ children }) => 
     // Set up global error handler for React Query
     queryClient.setDefaultOptions({
       queries: {
-        onError: handleError,
+        throwOnError: false,
       },
       mutations: {
-        onError: handleError,
+        throwOnError: false,
       },
     });
 

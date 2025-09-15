@@ -269,14 +269,21 @@ describe('SongPage', () => {
       expect(screen.getByText('Line 6')).toBeInTheDocument();
     });
 
-    it('should display future scroll controls message', () => {
+    it('should display scroll controls', () => {
       render(
         <TestWrapper>
           <SongPage />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Scroll controls will be available in the next update')).toBeInTheDocument();
+      // Check for scroll control buttons
+      expect(screen.getByRole('button', { name: /start scrolling/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /pause scrolling/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /stop scrolling/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /configure scroll settings/i })).toBeInTheDocument();
+      
+      // Check for scroll configuration display in the controls status
+      expect(screen.getByText(/delay: 3s \| speed: 5\/10/i)).toBeInTheDocument();
     });
   });
 
