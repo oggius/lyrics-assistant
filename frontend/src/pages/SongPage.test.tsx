@@ -169,15 +169,20 @@ describe('SongPage', () => {
       expect(screen.getByText('John Newton')).toBeInTheDocument();
     });
 
-    it('should display song metadata chips', () => {
+    it('should display scroll controls without metadata display', () => {
       render(
         <TestWrapper>
           <SongPage />
         </TestWrapper>
       );
 
-      expect(screen.getByText('Scroll Delay: 3s')).toBeInTheDocument();
-      expect(screen.getByText('Scroll Speed: 5/10')).toBeInTheDocument();
+      // Verify scroll controls are present
+      expect(screen.getByRole('button', { name: /start scrolling/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /configure scroll settings/i })).toBeInTheDocument();
+      
+      // Verify metadata is NOT displayed in the main UI (only in config modal)
+      expect(screen.queryByText('Scroll Delay: 3s')).not.toBeInTheDocument();
+      expect(screen.queryByText('Scroll Speed: 5/10')).not.toBeInTheDocument();
     });
 
     it('should display formatted lyrics with proper line breaks', () => {
@@ -282,8 +287,8 @@ describe('SongPage', () => {
       expect(screen.getByRole('button', { name: /stop scrolling/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /configure scroll settings/i })).toBeInTheDocument();
       
-      // Check for scroll configuration display in the controls status
-      expect(screen.getByText(/delay: 3s \| speed: 5\/10/i)).toBeInTheDocument();
+      // Verify that delay/speed info is NOT displayed in the main UI
+      expect(screen.queryByText(/delay: 3s \| speed: 5\/10/i)).not.toBeInTheDocument();
     });
   });
 

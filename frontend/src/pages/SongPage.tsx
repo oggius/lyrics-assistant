@@ -13,13 +13,15 @@ import {
   MusicNote as MusicNoteIcon,
   Person as PersonIcon,
 } from '@mui/icons-material';
-import { useSong } from '../hooks/useApi';
+import { useSong, useUpdateSong } from '../hooks/useApi';
 import { useScrollService } from '../hooks/useScrollService';
 import { ScrollControls } from '../components';
+import { ScrollConfig } from '../types/api';
 
 const SongPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: song, isLoading, error } = useSong(id!);
+  const updateSongMutation = useUpdateSong();
   const lyricsRef = useRef<HTMLDivElement>(null);
   const lyricsContentRef = useRef<HTMLHRElement>(null);
 
@@ -37,6 +39,26 @@ const SongPage: React.FC = () => {
     startDelay: song?.scrollStartDelay ?? 0,
     speed: song?.scrollSpeed ?? 5,
   });
+
+  // Handle configuration update with server persistence
+  const handleConfigUpdate = async (newConfig: Partial<ScrollConfig>) => {
+    if (!song) return;
+
+    // Update local scroll service immediately for responsive UI
+    updateConfig(newConfig);
+
+    // Update song on server
+    try {
+      await updateSongMutation.mutateAsync({
+        id: song.id,
+        scrollStartDelay: newConfig.startDelay ?? config.startDelay,
+        scrollSpeed: newConfig.speed ?? config.speed,
+      });
+    } catch (error) {
+      console.error('Failed to save scroll configuration:', error);
+      // Optionally show an error message to the user
+    }
+  };
 
   // Handle play with scroll to lyrics content (the divider before lyrics)
   const handlePlay = () => {
@@ -120,23 +142,10 @@ const SongPage: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-      {/* Scroll Controls - Moved to top */}
-      <Box sx={{ mb: 3 }}>
-        <ScrollControls
-          isPlaying={isPlaying}
-          isPaused={isPaused}
-          isActive={isActive}
-          config={config}
-          onPlay={handlePlay}
-          onStop={stop}
-          onPause={pause}
-          onConfigUpdate={updateConfig}
-        />
-      </Box>
-
-      {/* Song Header */}
+      {/* Combined Song Header and Controls */}
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
+        {/* Song Information */}
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 3 }}>
           <MusicNoteIcon color="primary" sx={{ mt: 0.5 }} />
           <Box sx={{ flex: 1 }}>
             <Typography
@@ -152,7 +161,7 @@ const SongPage: React.FC = () => {
             </Typography>
 
             {song.author && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <PersonIcon color="action" fontSize="small" />
                 <Typography
                   variant="h6"
@@ -166,19 +175,18 @@ const SongPage: React.FC = () => {
           </Box>
         </Box>
 
-        {/* Song Metadata */}
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <Chip
-            label={`Scroll Delay: ${song.scrollStartDelay}s`}
-            variant="outlined"
-            size="small"
-          />
-          <Chip
-            label={`Scroll Speed: ${song.scrollSpeed}/10`}
-            variant="outlined"
-            size="small"
-          />
-        </Box>
+        {/* Scroll Controls */}
+        <ScrollControls
+          isPlaying={isPlaying}
+          isPaused={isPaused}
+          isActive={isActive}
+          config={config}
+          song={song}
+          onPlay={handlePlay}
+          onStop={stop}
+          onPause={pause}
+          onConfigUpdate={handleConfigUpdate}
+        />
       </Paper>
 
       {/* Lyrics Content - Clickable to pause/resume */}

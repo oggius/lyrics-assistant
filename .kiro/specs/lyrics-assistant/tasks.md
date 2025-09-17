@@ -88,12 +88,12 @@
   - Write unit tests for scroll service functionality
   - _Requirements: 2.3, 2.4, 2.5, 2.6, 2.7_
 
-- [ ] 11. Create configuration modal for scroll settings
+- [x] 11. Create configuration modal for scroll settings
   - Build ConfigModal component for scroll configuration
-  - Implement form inputs for scroll start delay and speed
-  - Add input validation for delay (unsigned integer) and speed (1-10)
-  - Implement save functionality to apply settings to current song
-  - Add default values and reset functionality
+  - Implement form input for scroll start delay (unsigned integer validation)
+  - Implement slider for scroll speed (1-10 range validation)
+  - Implement save functionality to persist settings to server via song update API
+  - Ensure saved settings persist across page reloads by updating song entity
   - Write component tests for configuration modal
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
@@ -150,3 +150,23 @@
   - Add monitoring and logging for production environment
   - Write deployment documentation and runbooks
   - _Requirements: 7.5, 8.4, 8.5, 8.6_
+##
+ Implementation Guidelines
+
+### Testing Requirements
+**IMPORTANT**: After completing any task implementation, always run the full test suite to ensure no regressions have been introduced:
+
+```bash
+# Frontend tests
+cd frontend && npm test -- --run
+
+# Backend tests (when available)
+cd backend && npm test
+```
+
+All tests must pass before considering a task complete. If tests fail due to changes made during implementation:
+1. Update the failing tests to reflect the new expected behavior
+2. Ensure the updated tests accurately validate the implemented functionality
+3. Re-run the full test suite to confirm all tests pass
+
+This practice helps maintain code quality and prevents breaking changes from being introduced during development.
